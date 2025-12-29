@@ -8,8 +8,9 @@ def get_available_images(image_folder: str, annotated_folder: str, assigned_fold
     all_images: set[str] = set(os.listdir(image_folder))
     all_images_no_ext: dict[str, str] = {remove_extension(f): f for f in all_images}
     used_images_no_ext: set[str] = set(remove_extension(f) for f in get_assigned_or_labelled_images(annotated_folder, assigned_folder))
-    available_no_ext: set[str] = set(all_images_no_ext.keys()) - used_images_no_ext
-    available_images: list[str] = [all_images_no_ext[name] for name in sorted(available_no_ext)]
+    all_images_no_ext_keys: set[str] = set(all_images_no_ext.keys())
+    available_images_no_ext: set[str] = all_images_no_ext_keys.difference(used_images_no_ext)
+    available_images: list[str] = [all_images_no_ext[key] for key in available_images_no_ext]
     return available_images
 
 def get_files_batch(available_images: list[str], batch_size: int, start_index: int) -> list[str]:

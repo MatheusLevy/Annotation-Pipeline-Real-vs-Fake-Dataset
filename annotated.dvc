@@ -1,0 +1,6 @@
+outs:
+- md5: 8910b93d28d0f4ce74fe0cada7dc0ea1.dir
+  size: 809669
+  nfiles: 500
+  hash: md5
+  path: annotated

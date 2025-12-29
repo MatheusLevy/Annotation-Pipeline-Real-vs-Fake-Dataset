@@ -3,8 +3,10 @@ import yaml
 import json
 
 def get_available_images(image_folder: str, annotated_folder: str, assigned_folder: str) -> list[str]:
-    all_images: set[str] = set(os.listdir(image_folder))
-    used_images: set[str] = set(get_assigned_or_labelled_images(annotated_folder, assigned_folder))
+    def remove_extension(filename: str) -> str:
+        return os.path.splitext(filename)[0]
+    all_images: set[str] = set(remove_extension(f) for f in os.listdir(image_folder))
+    used_images: set[str] = set(remove_extension(f) for f in get_assigned_or_labelled_images(annotated_folder, assigned_folder))
     available_images: list[str] = list(all_images - used_images)
     return sorted(available_images)
 

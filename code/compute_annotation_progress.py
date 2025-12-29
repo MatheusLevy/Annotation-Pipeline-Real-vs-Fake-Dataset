@@ -1,0 +1,52 @@
+import os
+import json
+import time
+
+def show_annotation_progress():
+    image_folder: str = "./images"
+    annotations_folder: str = "./annotated"
+    total_images: int = len(os.listdir(image_folder))
+    annotated_splits: list[str] = os.listdir(annotations_folder)
+    annotation_progress: dict[str, float] = {}
+    assigned_folder: str = "./assigned"
+
+    for split in annotated_splits:
+        split_path: str = os.path.join(annotations_folder, split)
+        time.sleep(0.1)
+
+        if os.path.isdir(split_path):
+            annotated_files: int = len(os.listdir(split_path))
+
+            assigned_count = 0
+            assigned_file = os.path.join(assigned_folder, f"{split}.json")
+            if os.path.isfile(assigned_file):
+                try:
+                    with open(assigned_file, 'r') as af:
+                        data = json.load(af)
+                        assigned_images = data.get("images") if isinstance(data, dict) else None
+                        if isinstance(assigned_images, list):
+                            assigned_count = len(assigned_images)
+                except Exception:
+                    assigned_count = 0
+
+            if assigned_count == 0:
+                assigned_count = len(os.listdir(split_path))
+
+            progress: float = (annotated_files / assigned_count) * 100 if assigned_count > 0 else 0
+            annotation_progress[split] = round(progress, 2)
+            print(f"  📁 {split}: {annotated_files}/{assigned_count} ({progress:.1f}%)")
+
+    with open("annotation_progress.json", 'w') as file:
+        json.dump(annotation_progress, file, indent=4)
+
+    total_progress = sum(annotation_progress.values()) / len(annotation_progress) if annotation_progress else 0
+
+    for split, progress in annotation_progress.items():
+        status = "🟢" if progress >= 80 else "🟡" if progress >= 50 else "🔴"
+        print(f"{status} {split:15} | {progress:6.1f}%")
+
+    print("=" * 50)
+    print(f"📊 Overall average progress: {total_progress:.1f}%")
+
+if __name__ == "__main__":
+    show_annotation_progress()

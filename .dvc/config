@@ -1,0 +1,6 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = s3://classification-real-vs-fake/annotated
+    endpointurl = http://localhost:9000
+    profile = minIO

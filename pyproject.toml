@@ -1,0 +1,11 @@
+[project]
+name = "annotation-pipeline-real-vs-fake-dataset"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "dvc[s3]>=3.65.0",
+    "label-studio>=1.22.0",
+    "pyyaml>=6.0.3",
+]

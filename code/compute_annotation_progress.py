@@ -8,6 +8,7 @@ def show_annotation_progress():
     total_images: int = len(os.listdir(image_folder))
     annotated_splits: list[str] = os.listdir(annotations_folder)
     annotation_progress: dict[str, float] = {}
+    total_annotated: int = 0
     assigned_folder: str = "./assigned"
 
     for split in annotated_splits:
@@ -34,12 +35,13 @@ def show_annotation_progress():
 
             progress: float = (annotated_files / assigned_count) * 100 if assigned_count > 0 else 0
             annotation_progress[split] = round(progress, 2)
+            total_annotated += annotated_files
             print(f"  📁 {split}: {annotated_files}/{assigned_count} ({progress:.1f}%)")
 
     with open("annotation_progress.json", 'w') as file:
         json.dump(annotation_progress, file, indent=4)
 
-    total_progress = sum(annotation_progress.values()) / len(annotation_progress) if annotation_progress else 0
+    total_progress = (total_annotated / total_images) * 100 if total_images > 0 else 0
 
     for split, progress in annotation_progress.items():
         status = "🟢" if progress >= 80 else "🟡" if progress >= 50 else "🔴"

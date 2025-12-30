@@ -1,5 +1,5 @@
 assigneds:
-  - batch_size: 1000
+  - batch_size: 2000
     image_folder: images
     labels:
       - frog

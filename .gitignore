@@ -3,3 +3,9 @@
 /__pycache__
 /assigned_batches
 /annotated
+/label-studio
+label_studio_data.parquet
+.env
+*.pyc
+docker-compose.yaml
+/postgres_data

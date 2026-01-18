@@ -1,8 +1,0 @@
-assigneds:
-  - batch_size: 2000
-    image_folder: images
-    labels:
-      - frog
-    Assigned: Matheus_Levy
-    Reviewer: Matheus_Levy
-    output_file: Matheus_Levy.json

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    image: heartexlabs/label-studio:latest
+    container_name: label-studio-app
+    user: "1001:0"
+    environment:
+      - DJANGO_DB=default
+      - POSTGRE_NAME=labelstudio
+      - POSTGRE_USER=postgres
+      - POSTGRE_PASSWORD=KEY_EXAMPLE123
+      - POSTGRE_PORT=5432
+      - POSTGRE_HOST=postgres
+      - USE_NGINX_FOR_UPLOADS=false
+      - USE_NGINX_FOR_EXPORT_DOWNLOADS=false
+      - AWS_ACCESS_KEY_ID=KEY_EXAMPLE123
+      - AWS_SECRET_ACCESS_KEY=KEY_EXAMPLE123
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_S3_ENDPOINT_URL=http://minio:9000
+      - AWS_S3_VERIFY=false
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./label-studio:/label-studio/data
+    depends_on:
+      - postgres
+    networks:
+      - labelstudio-network
+
+  postgres:
+    image: postgres:13
+    container_name: label-studio-postgres
+    environment:
+      - POSTGRES_DB=labelstudio
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=KEY_EXAMPLE123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - labelstudio-network
+
+volumes:
+  postgres_data:
+
+networks:
+  labelstudio-network:
+    external: true

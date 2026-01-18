@@ -1,0 +1,7 @@
+assigneds:
+  - batch_size: 500
+    Assigned: Matheus_Levy
+    Reviewer: Matheus_Levy
+  - batch_size: 200
+    Assigned: User1
+    Reviewer: Matheus_Levy
